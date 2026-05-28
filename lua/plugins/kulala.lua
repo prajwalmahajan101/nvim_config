@@ -9,6 +9,20 @@
 return {
   {
     "mistweaverco/kulala.nvim",
+    -- Pre-build the kulala_http tree-sitter parser so first .http open
+    -- doesn't fail with "Parser could not be created" while kulala's async
+    -- build runs. Requires `tree-sitter` CLI in PATH.
+    build = function()
+      local plugin_dir  = vim.fn.stdpath("data") .. "/lazy/kulala.nvim/lua/tree-sitter"
+      local parsers_dir = vim.fn.stdpath("data") .. "/site/parser"
+      local queries_src = plugin_dir .. "/queries/kulala_http"
+      local queries_dst = vim.fn.stdpath("data") .. "/site/queries/kulala_http"
+      vim.fn.mkdir(parsers_dir, "p")
+      vim.fn.mkdir(queries_dst, "p")
+      pcall(vim.fn.system, { "cp", "-rT", queries_src, queries_dst })
+      local out = vim.fn.shellescape(parsers_dir .. "/kulala_http.so")
+      vim.fn.system("cd " .. vim.fn.shellescape(plugin_dir) .. " && tree-sitter build -o " .. out)
+    end,
     opts = function(_, opts)
       opts.default_view = "body"
       opts.default_env  = "dev"

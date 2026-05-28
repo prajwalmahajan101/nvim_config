@@ -8,10 +8,7 @@ return {
       servers = {
         vale_ls = {
           filetypes = { "markdown", "text", "rst", "tex", "asciidoc" },
-          root_dir = function(fname)
-            local util = require("lspconfig.util")
-            return util.root_pattern(".vale.ini", "vale.ini")(fname) or util.find_git_ancestor(fname)
-          end,
+          root_markers = { ".vale.ini", "vale.ini", ".git" },
           single_file_support = true,
         },
       },
