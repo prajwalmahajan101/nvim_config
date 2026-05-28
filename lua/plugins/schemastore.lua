@@ -9,32 +9,36 @@ return {
     opts = {
       servers = {
         jsonls = {
+          on_new_config = function(new_config)
+            new_config.settings = new_config.settings or {}
+            new_config.settings.json = new_config.settings.json or {}
+            new_config.settings.json.schemas = vim.list_extend(
+              new_config.settings.json.schemas or {},
+              require("schemastore").json.schemas()
+            )
+          end,
           settings = {
-            json = {
-              schemas = function()
-                return require("schemastore").json.schemas()
-              end,
-              validate = { enable = true },
-              format = { enable = true },
-            },
+            json = { validate = { enable = true }, format = { enable = true } },
           },
         },
         yamlls = {
+          on_new_config = function(new_config)
+            new_config.settings = new_config.settings or {}
+            new_config.settings.yaml = new_config.settings.yaml or {}
+            new_config.settings.yaml.schemas = vim.tbl_deep_extend(
+              "force",
+              new_config.settings.yaml.schemas or {},
+              require("schemastore").yaml.schemas()
+            )
+          end,
           settings = {
             redhat = { telemetry = { enabled = false } },
             yaml = {
-              schemaStore = {
-                -- We provide the store via SchemaStore.nvim instead.
-                enable = false,
-                url = "",
-              },
-              schemas = function()
-                return require("schemastore").yaml.schemas()
-              end,
+              schemaStore = { enable = false, url = "" },
               validate = true,
               completion = true,
               hover = true,
-              keyOrdering = false,           -- kube manifests rely on author ordering
+              keyOrdering = false,
               format = { enable = true, singleQuote = false },
             },
           },
