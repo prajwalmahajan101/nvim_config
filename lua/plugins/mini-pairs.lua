@@ -3,7 +3,7 @@
 
 return {
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     opts = function(_, opts)
       opts = opts or {}
       opts.modes = vim.tbl_deep_extend("force", opts.modes or {}, {
