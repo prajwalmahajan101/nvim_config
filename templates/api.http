@@ -1,0 +1,51 @@
+# Kulala starter — copy into your project as api.http.
+# Run with <leader>Rr (current request) or <leader>Ra (all).
+# Switch env with <leader>Re.
+
+@host = http://localhost:8000
+@token = {{$dotenv API_TOKEN}}
+
+### Health check
+GET {{host}}/health
+Accept: application/json
+
+### List items
+GET {{host}}/items?limit=10
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Create item
+POST {{host}}/items
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "demo",
+  "price": 9.99
+}
+
+### Get item by id
+GET {{host}}/items/{{itemId}}
+Authorization: Bearer {{token}}
+
+### Update item
+PATCH {{host}}/items/{{itemId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "price": 12.50
+}
+
+### Delete item
+DELETE {{host}}/items/{{itemId}}
+Authorization: Bearer {{token}}
+
+### GraphQL example
+POST {{host}}/graphql
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "query": "query { items { id name price } }"
+}

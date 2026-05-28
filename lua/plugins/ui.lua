@@ -117,8 +117,25 @@ return {
         color = { fg = "#9ece6a" },
       })
 
+      -- Format-on-save indicator (LazyVim's vim.b/vim.g autoformat flag).
+      local function fmt_pill()
+        local buf = vim.b.autoformat
+        local glob = vim.g.autoformat
+        local enabled = (buf == nil and glob ~= false) or buf == true
+        return enabled and "  FMT" or "  fmt"
+      end
+
       opts.sections.lualine_x = opts.sections.lualine_x or {}
       table.insert(opts.sections.lualine_x, 1, { lsp_clients, color = { fg = "#7aa2f7" } })
+      table.insert(opts.sections.lualine_x, 2, {
+        fmt_pill,
+        color = function()
+          local buf = vim.b.autoformat
+          local glob = vim.g.autoformat
+          local enabled = (buf == nil and glob ~= false) or buf == true
+          return { fg = enabled and "#9ece6a" or "#565f89" }
+        end,
+      })
 
       return opts
     end,

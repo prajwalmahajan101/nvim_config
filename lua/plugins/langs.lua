@@ -18,6 +18,15 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
+      opts.incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection    = "<C-Space>",
+          node_incremental  = "<C-Space>",
+          scope_incremental = "<C-s>",
+          node_decremental  = "<BS>",
+        },
+      }
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, {
         -- Python / Django / FastAPI
