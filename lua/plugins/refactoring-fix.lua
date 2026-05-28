@@ -14,6 +14,35 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
+    opts = {
+      -- Per-language debug-print templates. {{cursor}} is the cursor position
+      -- after expansion; {{var}} is the variable name picked from the cursor.
+      printf_statements = {
+        python = { 'print(f"[DEBUG] {{cursor}}")' },
+        go     = { 'fmt.Println("[DEBUG] {{cursor}}")' },
+        java   = { 'System.out.println("[DEBUG] {{cursor}}");' },
+        typescript       = { 'console.log("[DEBUG] {{cursor}}")' },
+        typescriptreact  = { 'console.log("[DEBUG] {{cursor}}")' },
+        javascript       = { 'console.log("[DEBUG] {{cursor}}")' },
+        javascriptreact  = { 'console.log("[DEBUG] {{cursor}}")' },
+        lua    = { 'vim.print({ debug = "{{cursor}}" })' },
+        sh     = { 'echo "[DEBUG] {{cursor}}" >&2' },
+        bash   = { 'echo "[DEBUG] {{cursor}}" >&2' },
+      },
+      print_var_statements = {
+        python = { 'print(f"[DEBUG] {{var}}={{ {{var}}!r }}")' },
+        go     = { 'fmt.Printf("[DEBUG] {{var}}=%+v\\n", {{var}})' },
+        java   = { 'System.out.println("[DEBUG] {{var}} = " + {{var}});' },
+        typescript       = { 'console.log("[DEBUG] {{var}} =", {{var}});' },
+        typescriptreact  = { 'console.log("[DEBUG] {{var}} =", {{var}});' },
+        javascript       = { 'console.log("[DEBUG] {{var}} =", {{var}});' },
+        javascriptreact  = { 'console.log("[DEBUG] {{var}} =", {{var}});' },
+        lua    = { 'vim.print({ {{var}} = {{var}} })' },
+        sh     = { 'echo "[DEBUG] {{var}}=${{var}}" >&2' },
+        bash   = { 'echo "[DEBUG] {{var}}=${{var}}" >&2' },
+      },
+      show_success_message = true,
+    },
     config = function(_, opts)
       require("refactoring").setup(opts)
     end,

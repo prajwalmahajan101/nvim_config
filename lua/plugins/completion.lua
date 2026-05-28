@@ -11,7 +11,7 @@
 --    Here we just pin the annotation style per language.
 
 return {
-  -- blink.cmp polish: ghost text, super-tab, bordered signature, mono icons.
+  -- blink.cmp deepening: cmdline polish, kind icons, per-ft sources, snippet preview.
   {
     "saghen/blink.cmp",
     opts = {
@@ -19,19 +19,57 @@ return {
       appearance = {
         use_nvim_cmp_as_default = false,
         nerd_font_variant = "mono",
+        kind_icons = {
+          Text          = "",
+          Method        = "󰊕",
+          Function      = "󰊕",
+          Constructor   = "",
+          Field         = "",
+          Variable      = "󰀫",
+          Property      = "",
+          Class         = "󰠱",
+          Interface     = "",
+          Struct        = "󰙅",
+          Module        = "",
+          Unit          = "",
+          Value         = "󰎠",
+          Enum          = "",
+          EnumMember    = "",
+          Keyword       = "󰌋",
+          Constant      = "󰏿",
+          Snippet       = "",
+          Color         = "󰏘",
+          File          = "󰈙",
+          Reference     = "",
+          Folder        = "󰉋",
+          Event         = "",
+          Operator      = "󰆕",
+          TypeParameter = "",
+        },
       },
       completion = {
         ghost_text = { enabled = true },
-        accept = { auto_brackets = { enabled = true } },
+        accept = {
+          auto_brackets = {
+            enabled = true,
+            kind_resolution = { enabled = true },
+          },
+        },
         menu = {
           auto_show = true,
           border = "rounded",
-          draw = { treesitter = { "lsp" } },
+          draw = {
+            treesitter = { "lsp" },
+            columns = {
+              { "kind_icon", "label", "label_description", gap = 1 },
+              { "kind" },
+            },
+          },
         },
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
-          window = { border = "rounded" },
+          window = { border = "rounded", scrollbar = false },
         },
         list = { selection = { preselect = false, auto_insert = true } },
       },
@@ -39,10 +77,30 @@ return {
         enabled = true,
         window = { border = "rounded" },
       },
+      cmdline = {
+        enabled = true,
+        keymap = { preset = "cmdline" },
+        completion = {
+          menu = { auto_show = true },
+          list = { selection = { preselect = true, auto_insert = true } },
+        },
+      },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
+        per_filetype = {
+          sql       = { "snippets", "dadbod", "buffer" },
+          mysql     = { "snippets", "dadbod", "buffer" },
+          plsql     = { "snippets", "dadbod", "buffer" },
+          gitcommit = { "git", "snippets", "buffer" },
+          markdown  = { "snippets", "lsp", "path", "buffer", "dictionary", "emoji" },
+          text      = { "snippets", "buffer", "dictionary", "emoji" },
+        },
         providers = {
           buffer = { score_offset = -3 }, -- prefer lsp/snippets over plain words
+          dadbod = {
+            name = "Dadbod",
+            module = "vim_dadbod_completion.blink",
+          },
         },
       },
     },

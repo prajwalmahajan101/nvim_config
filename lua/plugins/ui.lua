@@ -3,6 +3,25 @@
 -- matches the Omarchy dark / glassmorphism aesthetic.
 
 return {
+  -- ── Per-filetype diagnostic display: virtual_lines for prose, virtual_text for code ──
+  -- Prose buffers (markdown/gitcommit/etc) prefer multi-line for readability;
+  -- code buffers keep the compact in-line variant configured below.
+  {
+    "neovim/nvim-lspconfig",
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("DiagDisplayPerFt", { clear = true }),
+        pattern = { "markdown", "text", "rst", "gitcommit", "norg", "asciidoc" },
+        callback = function()
+          vim.diagnostic.config({
+            virtual_lines = { only_current_line = true },
+            virtual_text = false,
+          }, { ns_id = nil })
+        end,
+      })
+    end,
+  },
+
   -- ── Diagnostics: severity-sorted virtual text, prefix icon, rounded floats ──
   {
     "neovim/nvim-lspconfig",

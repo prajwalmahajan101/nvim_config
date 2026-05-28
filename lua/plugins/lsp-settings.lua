@@ -49,6 +49,62 @@ return {
           },
         },
 
+        -- ── TS/JS: vtsls/tsserver (auto-import, single quotes, inlay hints) ──
+        -- LazyVim picks tsserver by default; vtsls is supported by the same opts.
+        vtsls = {
+          settings = {
+            typescript = {
+              updateImportsOnFileMove = { enabled = "always" },
+              inlayHints = {
+                parameterNames           = { enabled = "literals" },
+                parameterTypes           = { enabled = true },
+                variableTypes            = { enabled = false },
+                propertyDeclarationTypes = { enabled = true },
+                functionLikeReturnTypes  = { enabled = true },
+                enumMemberValues         = { enabled = true },
+              },
+              preferences = {
+                importModuleSpecifier              = "non-relative",
+                quoteStyle                         = "single",
+                includeCompletionsForModuleExports = true,
+                includeCompletionsWithSnippetText  = true,
+              },
+              suggest = { completeFunctionCalls = true },
+            },
+            javascript = {
+              updateImportsOnFileMove = { enabled = "always" },
+              inlayHints = {
+                parameterNames           = { enabled = "literals" },
+                parameterTypes           = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+              },
+              preferences = {
+                importModuleSpecifier              = "non-relative",
+                quoteStyle                         = "single",
+                includeCompletionsForModuleExports = true,
+              },
+            },
+          },
+        },
+        tsserver = {
+          settings = {
+            typescript = {
+              preferences = {
+                importModuleSpecifier              = "non-relative",
+                quoteStyle                         = "single",
+                includeCompletionsForModuleExports = true,
+              },
+            },
+          },
+        },
+        eslint = {
+          settings = {
+            workingDirectories = { mode = "auto" },
+            experimental = { useFlatConfig = true },
+            format = false, -- prettier owns formatting
+          },
+        },
+
         -- ── Go: gopls (with staticcheck + hints) ───────────
         gopls = {
           settings = {
