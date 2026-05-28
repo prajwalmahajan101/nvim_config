@@ -103,6 +103,20 @@ return {
       opts.sections.lualine_c = opts.sections.lualine_c or {}
       table.insert(opts.sections.lualine_c, { macro, color = { fg = "#ff9e64", gui = "bold" } })
 
+      -- navic breadcrumb (class › method) — shown only when LSP-attached buffer supports it
+      table.insert(opts.sections.lualine_c, {
+        function()
+          local ok, navic = pcall(require, "nvim-navic")
+          if not ok or not navic.is_available() then return "" end
+          return navic.get_location()
+        end,
+        cond = function()
+          local ok, navic = pcall(require, "nvim-navic")
+          return ok and navic.is_available()
+        end,
+        color = { fg = "#9ece6a" },
+      })
+
       opts.sections.lualine_x = opts.sections.lualine_x or {}
       table.insert(opts.sections.lualine_x, 1, { lsp_clients, color = { fg = "#7aa2f7" } })
 

@@ -97,4 +97,111 @@ return {
     },
     opts = { skipInsignificantPunctuation = true },
   },
+
+  -- ── Flash: label-based motion (replaces leap). `s` to jump, `S` for treesitter scopes. ──
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      modes = {
+        char = { jump_labels = true },
+        search = { enabled = false }, -- don't hijack `/` — keep search ergonomics
+      },
+    },
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,       desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o",               function() require("flash").remote() end,     desc = "Remote Flash" },
+      { "R", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+    },
+  },
+
+  -- ── Smart-splits: directional move/resize/swap across nvim splits ──
+  {
+    "mrjones2014/smart-splits.nvim",
+    lazy = false,
+    keys = {
+      { "<C-h>",      function() require("smart-splits").move_cursor_left() end,  desc = "Move to left split" },
+      { "<C-j>",      function() require("smart-splits").move_cursor_down() end,  desc = "Move to below split" },
+      { "<C-k>",      function() require("smart-splits").move_cursor_up() end,    desc = "Move to above split" },
+      { "<C-l>",      function() require("smart-splits").move_cursor_right() end, desc = "Move to right split" },
+      { "<A-h>",      function() require("smart-splits").resize_left() end,       desc = "Resize split left" },
+      { "<A-j>",      function() require("smart-splits").resize_down() end,       desc = "Resize split down" },
+      { "<A-k>",      function() require("smart-splits").resize_up() end,         desc = "Resize split up" },
+      { "<A-l>",      function() require("smart-splits").resize_right() end,      desc = "Resize split right" },
+      { "<leader>wh", function() require("smart-splits").swap_buf_left() end,     desc = "Swap split left" },
+      { "<leader>wj", function() require("smart-splits").swap_buf_down() end,     desc = "Swap split down" },
+      { "<leader>wk", function() require("smart-splits").swap_buf_up() end,       desc = "Swap split up" },
+      { "<leader>wl", function() require("smart-splits").swap_buf_right() end,    desc = "Swap split right" },
+    },
+  },
+
+  -- ── Treesitter-context: sticky scope header (extra-enabled; opts override) ──
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    opts = {
+      max_lines = 4,
+      multiline_threshold = 1,
+      trim_scope = "outer",
+      mode = "cursor",
+      separator = "─",
+    },
+    keys = {
+      { "<leader>uC", "<cmd>TSContextToggle<cr>", desc = "Toggle treesitter-context" },
+      { "[c",         function() require("treesitter-context").go_to_context(vim.v.count1) end, desc = "Jump to context" },
+    },
+  },
+
+  -- ── Snacks scratch: markdown scratchpad with persistent root ──
+  {
+    "folke/snacks.nvim",
+    opts = {
+      scratch = {
+        ft = "markdown",
+        root = vim.fn.stdpath("data") .. "/scratch",
+        autowrite = true,
+      },
+    },
+    keys = {
+      { "<leader>.",  function() require("snacks").scratch() end,        desc = "Toggle scratch buffer" },
+      { "<leader>S",  function() require("snacks").scratch.select() end, desc = "Pick scratch buffer" },
+    },
+  },
+
+  -- ── Inline image rendering in markdown (kitty/ghostty supported) ──
+  {
+    "3rd/image.nvim",
+    ft = { "markdown" },
+    enabled = function()
+      local term = os.getenv("TERM") or ""
+      return term:match("kitty") or term:match("ghostty") or os.getenv("KITTY_WINDOW_ID") ~= nil
+    end,
+    opts = {
+      backend = "kitty",
+      integrations = {
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = true,
+          download_remote_images = false,
+          only_render_image_at_cursor = false,
+          filetypes = { "markdown" },
+        },
+      },
+      max_width_window_percentage = 60,
+      max_height_window_percentage = 50,
+    },
+  },
+
+  -- ── Markdown table-mode: pipe-aligned tables for docs editing ──
+  {
+    "dhruvasagar/vim-table-mode",
+    ft = { "markdown" },
+    cmd = { "TableModeToggle", "TableModeEnable", "TableModeDisable" },
+    keys = {
+      { "<leader>mt", "<cmd>TableModeToggle<cr>", ft = "markdown", desc = "Markdown: toggle table mode" },
+    },
+    init = function()
+      vim.g.table_mode_corner = "|" -- markdown-compatible corner
+    end,
+  },
 }

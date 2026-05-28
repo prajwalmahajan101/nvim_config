@@ -31,6 +31,8 @@ return {
         { "<leader>f", group = "file/find",   icon = { icon = "󰈞", color = "blue"   } },
         { "<leader>g", group = "git",         icon = { icon = "", color = "orange" } },
         { "<leader>h", group = "harpoon",     icon = { icon = "󰛢", color = "cyan"   } },
+        { "<leader>m", group = "markdown",    icon = { icon = "", color = "blue"   } },
+        { "<leader>w", group = "window",      icon = { icon = "", color = "green"  } },
         { "<leader>q", group = "quit/session",icon = { icon = "", color = "red"    } },
         { "<leader>r", group = "refactor",    icon = { icon = "", color = "yellow" } },
         { "<leader>s", group = "search",      icon = { icon = "", color = "green"  } },
