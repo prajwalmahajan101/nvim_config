@@ -1,0 +1,22 @@
+# Inherited from LazyVim starter
+tt.*
+.tests
+doc/tags
+debug
+.repro
+foo.*
+*.log
+data
+
+# Local user state (don't commit per-machine artefacts)
+.omc/
+.netrwhist
+spell/
+session/
+shada/
+.DS_Store
+*.swp
+*.swo
+
+# Note: lazy-lock.json IS committed so this setup reproduces deterministically
+# on a fresh machine. Delete it locally and `:Lazy update` to float versions.
