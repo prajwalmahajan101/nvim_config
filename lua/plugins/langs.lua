@@ -62,6 +62,43 @@ return {
         python = { "ruff_format", "ruff_organize_imports" },
         -- Java via google-java-format (added to Mason below)
         java = { "google-java-format" },
+        -- Data / config (added round 5)
+        yaml = { "prettier" },
+        json = { "prettier" },
+        jsonc = { "prettier" },
+        toml = { "taplo" },
+        sql = { "sqlfluff" },
+        -- Docs
+        markdown = { "prettier", "markdownlint-cli2" },
+        -- Shell
+        bash = { "shfmt" },
+        sh = { "shfmt" },
+        zsh = { "shfmt" },
+        -- Lua (config edits)
+        lua = { "stylua" },
+      },
+    },
+  },
+
+  -- ── venv-selector: pick Python virtualenvs (.venv / venv / poetry / pixi) ──
+  -- Plugin is installed via lang.python extra; we add the keymap + tighter opts.
+  {
+    "linux-cultist/venv-selector.nvim",
+    branch = "regexp",
+    cmd = { "VenvSelect", "VenvSelectCached", "VenvSelectCurrent" },
+    keys = {
+      { "<leader>cv", "<cmd>VenvSelect<cr>", desc = "Select Python venv" },
+      { "<leader>cV", "<cmd>VenvSelectCached<cr>", desc = "Use cached venv" },
+    },
+    opts = {
+      settings = {
+        options = {
+          notify_user_on_venv_activation = true,
+        },
+        search = {
+          poetry = { command = "fd '/bin/python$' ~/.cache/pypoetry/virtualenvs --full-path --color never" },
+          pixi   = { command = "fd '/bin/python$' .pixi/envs --full-path --color never" },
+        },
       },
     },
   },
@@ -107,6 +144,13 @@ return {
         "marksman",                 -- Markdown LSP
         "markdown-toc",
         "vale-ls",                  -- Prose style linter (Microsoft, etc.)
+
+        -- Data / config formatters (round 5)
+        "taplo",                    -- TOML formatter/LSP
+        "sqlfluff",                 -- SQL formatter/linter
+        "shfmt",                    -- shell formatter
+        "stylua",                   -- Lua formatter
+        "hadolint",                 -- Dockerfile linter
       })
     end,
   },

@@ -147,8 +147,8 @@ return {
       separator = "─",
     },
     keys = {
-      { "<leader>uC", "<cmd>TSContextToggle<cr>", desc = "Toggle treesitter-context" },
-      { "[c",         function() require("treesitter-context").go_to_context(vim.v.count1) end, desc = "Jump to context" },
+      { "<leader>uX", "<cmd>TSContextToggle<cr>", desc = "Toggle treesitter-context" },
+      { "<leader>uo", function() require("treesitter-context").go_to_context(vim.v.count1) end, desc = "Jump to outer context" },
     },
   },
 

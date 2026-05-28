@@ -39,8 +39,9 @@ return {
       -- Sidebar (Ctrl+Shift+E) — focus / toggle neo-tree
       { "<C-S-e>",     "<cmd>Neotree focus<cr>",                          desc = "Focus file explorer" },
 
-      -- Terminal (Ctrl+J like VSCode panel)
+      -- Terminal (Ctrl+J like VSCode panel; <leader>` for floating variant)
       { "<C-j>",       function() Snacks.terminal.toggle() end, mode = { "n", "t" }, desc = "Toggle terminal" },
+      { "<leader>`",   function() Snacks.terminal() end,        mode = "n",         desc = "Floating terminal" },
 
       -- ── Comment toggle (Ctrl+/) ──
       { "<C-/>",       "gcc", mode = "n", remap = true, desc = "Toggle comment" },

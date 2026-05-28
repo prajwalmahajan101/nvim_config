@@ -30,3 +30,15 @@ vim.opt.inccommand = "split"
 -- Word-wrap respects indent (better for markdown / docstrings)
 vim.opt.breakindent = true
 vim.opt.linebreak = true
+
+-- Spelling: enable for prose filetypes only (gitcommit, markdown, text, rst).
+-- Keeps `z=` suggestions out of code buffers where they'd be noise.
+vim.opt.spelllang = { "en_us" }
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("ProseSpell", { clear = true }),
+  pattern = { "gitcommit", "markdown", "text", "rst", "norg", "asciidoc" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.wrap = true
+  end,
+})

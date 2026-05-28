@@ -1,6 +1,15 @@
 -- Polished which-key v3: icons per group, modern preset, a global "show all
 -- keymaps for this buffer" pop-up bound to <leader>?, and a writer for
 -- ~/.config/nvim/KEYMAPS.md so you have a static cheatsheet too.
+--
+-- Claimed <leader> prefixes (audit, R5):
+--   a = ai/claude        b = buffer           c = code (subgroups cg cp cu)
+--   d = debug            D = database         f = file/find         g = git (subgroups gc)
+--   h = harpoon          m = markdown         n = notice            o = overseer
+--   q = quit/session     r = refactor         R = rest/http         s = search
+--   t = test             u = ui/toggle        w = window            x = diagnostics
+--   ?  = which-key buffer view
+--   Available: e, i, j, k, l, p, v, y, z  (and most uppercase letters)
 
 return {
   {
@@ -36,6 +45,7 @@ return {
         { "<leader>h", group = "harpoon",     icon = { icon = "󰛢", color = "cyan"   } },
         { "<leader>m", group = "markdown",    icon = { icon = "", color = "blue"   } },
         { "<leader>n", group = "notice",      icon = { icon = "", color = "yellow" } },
+        { "<leader>o", group = "overseer",    icon = { icon = "󰣖", color = "green"  } },
         { "<leader>R", group = "rest/http",   icon = { icon = "󰖟", color = "green"  } },
         { "<leader>w", group = "window",      icon = { icon = "", color = "green"  } },
         { "<leader>q", group = "quit/session",icon = { icon = "", color = "red"    } },
