@@ -1,9 +1,42 @@
 -- Java/Spring deepening on top of LazyVim's lang.java extra.
 -- nvim-jdtls is already pulled in by the extra; here we:
+--   • resolve JAVA_HOME to a real JDK (bypassing mise shims that break -D args)
 --   • merge in java-debug + java-test bundles (DAP + JUnit runner)
 --   • auto-inject lombok agent if ~/.local/share/lombok/lombok.jar exists
 --   • tune jdtls settings (import order, formatter, organize-imports)
 --   • bind buffer-local <leader>t{j,J,D} for junit and <leader>c{o,v,c,m} for refactor
+
+-- ── Resolve a non-mise-shimmed Java path ─────────────────────────────────
+-- jdtls.py launches `java -Djdk.xml.maxGeneralEntitySizeLimit=0 ...`. If `java`
+-- in PATH is a mise shim, mise treats the -D arg as a tool name and aborts.
+-- jdtls.py prefers $JAVA_HOME/bin/java when set, so we point it at the real
+-- mise install (or any other JDK we can find) before the LSP starts.
+local function resolve_java_home()
+  if vim.env.JAVA_HOME and vim.uv.fs_stat(vim.env.JAVA_HOME .. "/bin/java") then
+    return vim.env.JAVA_HOME -- user already set it; respect it
+  end
+  -- 1) Ask mise (fast, authoritative if mise manages java).
+  local ok, mise = pcall(vim.fn.system, "mise which java 2>/dev/null")
+  if ok and type(mise) == "string" and mise ~= "" then
+    mise = vim.trim(mise)
+    if vim.uv.fs_stat(mise) then
+      -- mise prints path to .../bin/java; JAVA_HOME is two parents up.
+      return vim.fn.fnamemodify(mise, ":h:h")
+    end
+  end
+  -- 2) Common system locations.
+  for _, candidate in ipairs({
+    "/usr/lib/jvm/default",
+    "/usr/lib/jvm/java-21-openjdk",
+    "/usr/lib/jvm/java-17-openjdk",
+  }) do
+    if vim.uv.fs_stat(candidate .. "/bin/java") then return candidate end
+  end
+  return nil
+end
+
+local jh = resolve_java_home()
+if jh then vim.env.JAVA_HOME = jh end
 
 return {
   {
