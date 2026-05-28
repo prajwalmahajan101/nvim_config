@@ -102,10 +102,11 @@ return {
         "goimports",
         "golangci-lint",
 
-        -- Docs (markdown + diagrams)
+        -- Docs (markdown + diagrams + prose linting)
         "markdownlint-cli2",
         "marksman",                 -- Markdown LSP
         "markdown-toc",
+        "vale-ls",                  -- Prose style linter (Microsoft, etc.)
       })
     end,
   },

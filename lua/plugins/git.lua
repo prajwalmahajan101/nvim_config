@@ -7,6 +7,25 @@
 --   • gitlinker    — copy github.com URL for the current line/range (<leader>gy)
 
 return {
+  -- ── Gitsigns: inline blame on cursor hold ──
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      current_line_blame = true,
+      current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = "eol",
+        delay = 600,
+        ignore_whitespace = false,
+      },
+      current_line_blame_formatter = "  <author>, <author_time:%Y-%m-%d> · <summary>",
+    },
+    keys = {
+      { "<leader>gB", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle inline blame" },
+      { "<leader>gW", "<cmd>Gitsigns toggle_word_diff<cr>",          desc = "Toggle word diff" },
+    },
+  },
+
   -- ── Diffview: file history + 3-pane diffs ─────────────
   {
     "sindrets/diffview.nvim",

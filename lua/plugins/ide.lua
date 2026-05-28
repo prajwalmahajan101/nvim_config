@@ -46,6 +46,24 @@ return {
     opts = { max_lines = 3, multiline_threshold = 1, trim_scope = "outer" },
   },
 
+  -- ── Harpoon2 explicit keymaps under <leader>h ───────────────────────────
+  -- The plugin itself ships via the editor.harpoon2 extra; we only wire keys.
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    keys = {
+      { "<leader>ha", function() require("harpoon"):list():add() end,                       desc = "Harpoon: add file" },
+      { "<leader>hh", function() local h = require("harpoon"); h.ui:toggle_quick_menu(h:list()) end, desc = "Harpoon: quick menu" },
+      { "<leader>hn", function() require("harpoon"):list():next() end,                      desc = "Harpoon: next" },
+      { "<leader>hp", function() require("harpoon"):list():prev() end,                      desc = "Harpoon: prev" },
+      { "<leader>h1", function() require("harpoon"):list():select(1) end,                   desc = "Harpoon: slot 1" },
+      { "<leader>h2", function() require("harpoon"):list():select(2) end,                   desc = "Harpoon: slot 2" },
+      { "<leader>h3", function() require("harpoon"):list():select(3) end,                   desc = "Harpoon: slot 3" },
+      { "<leader>h4", function() require("harpoon"):list():select(4) end,                   desc = "Harpoon: slot 4" },
+      { "<leader>h5", function() require("harpoon"):list():select(5) end,                   desc = "Harpoon: slot 5" },
+    },
+  },
+
   -- ── Better quickfix: editable, previewable, prettier ───────────────────
   -- Pairs well with grug-far / LSP references (which populate the quickfix
   -- list). Edit lines in the list and `:w` to write changes back to files.

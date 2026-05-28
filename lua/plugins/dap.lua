@@ -69,8 +69,11 @@ return {
   },
 
   -- ── Virtual text: inline values for vars in scope during debug sessions ──
+  -- Lazy-attached as a dep of nvim-dap (loaded by dap.core extra's <leader>d keys).
   {
     "theHamsta/nvim-dap-virtual-text",
+    dependencies = { "mfussenegger/nvim-dap" },
+    lazy = true,
     opts = {
       enabled = true,
       enabled_commands = true,
